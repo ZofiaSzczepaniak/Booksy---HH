@@ -286,7 +286,7 @@ For each issue provide:
 - issue: short title
 - detail: explanation
 
-Return ONLY a JSON array of issue objects. No markdown, no extra text.
+Return ONLY a JSON array of issue objects. No markdown, no extra text. You DO NOT need to find issues with every item — only flag items that have potential problems. Be concise.
 
 Inventory:
 {inventory_json}"""
