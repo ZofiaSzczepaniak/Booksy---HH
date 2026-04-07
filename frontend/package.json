@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite --port 5173",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "npx serve dist --listen $PORT"
   },
   "dependencies": {
     "vue": "^3.4.21",
@@ -16,13 +17,5 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
     "vite": "^5.2.8"
-  }
-}
-{
-  "scripts": {
-    "dev": "vite --port 5173",
-    "build": "vite build",
-    "preview": "vite preview",
-    "start": "npx serve dist --listen $PORT"
   }
 }
