@@ -215,7 +215,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import axios from 'axios'
+import api from '../api.js'
 import { useAuthStore } from '../stores/auth.js'
 import { useToastStore } from '../stores/toast.js'
 import { useRoute } from 'vue-router'
@@ -253,8 +253,8 @@ async function fetchItems() {
   loading.value = true
   try {
     const [inv, rentals] = await Promise.all([
-      axios.get('/api/hardware'),
-      axios.get('/api/hardware/my-rentals'),
+      api.get('/api/hardware'),
+      api.get('/api/hardware/my-rentals'),
     ])
     items.value     = inv.data
     myRentals.value = rentals.data
@@ -349,7 +349,7 @@ async function aiSearch() {
   aiEnriched.value  = false
 
   try {
-    const { data } = await axios.post('/api/ai/search', { query: q })
+    const { data } = await api.post('/api/ai/search', { query: q })
 
     aiResults.value  = data.results  ?? []
     aiIntent.value   = data.intent   ?? null
@@ -378,7 +378,7 @@ function clearAiSearch() {
 async function rent(item) {
   actionLoading.value = item.id
   try {
-    await axios.post(`/api/hardware/${item.id}/rent`, {
+    await api.post(`/api/hardware/${item.id}/rent`, {
       user_id:  auth.user.id,
       username: auth.user.username,
     })
@@ -394,7 +394,7 @@ async function rent(item) {
 async function returnItem(item) {
   actionLoading.value = item.id
   try {
-    await axios.post(`/api/hardware/${item.id}/return`)
+    await api.post(`/api/hardware/${item.id}/return`)
     toast.success(`Returned "${item.name}"`)
     await fetchItems()
   } catch (e) {

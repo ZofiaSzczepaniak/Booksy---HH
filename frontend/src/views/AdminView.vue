@@ -248,7 +248,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import api from '../api.js'
 import { useAuthStore } from '../stores/auth.js'
 import { useToastStore } from '../stores/toast.js'
 
@@ -275,12 +275,12 @@ const form = ref({ name:'', brand:'', purchaseDate:'', status:'Available', notes
 const userForm = ref({ username:'', password:'', role:'user' })
 
 async function fetchHardware() {
-  const { data } = await axios.get('/api/hardware')
+  const { data } = await api.get('/api/hardware')
   hardware.value = data
 }
 
 async function fetchUsers() {
-  const { data } = await axios.get('/api/users')
+  const { data } = await api.get('/api/users')
   users.value = data
 }
 
@@ -305,10 +305,10 @@ async function saveHardware() {
   formLoading.value = true
   try {
     if (editingItem.value) {
-      await axios.put(`/api/hardware/${editingItem.value.id}`, form.value)
+      await api.put(`/api/hardware/${editingItem.value.id}`, form.value)
       toast.success('Item updated')
     } else {
-      await axios.post('/api/hardware', form.value)
+      await api.post('/api/hardware', form.value)
       toast.success('Item added')
     }
     showHardwareModal.value = false
@@ -322,7 +322,7 @@ async function saveHardware() {
 
 async function quickStatusChange(item, newStatus) {
   try {
-    await axios.put(`/api/hardware/${item.id}`, { ...item, status: newStatus })
+    await api.put(`/api/hardware/${item.id}`, { ...item, status: newStatus })
     toast.success(`Status updated to ${newStatus}`)
     await fetchHardware()
   } catch {
@@ -335,7 +335,7 @@ function confirmDelete(item) { deleteTarget.value = item }
 async function doDelete() {
   formLoading.value = true
   try {
-    await axios.delete(`/api/hardware/${deleteTarget.value.id}`)
+    await api.delete(`/api/hardware/${deleteTarget.value.id}`)
     toast.success('Item deleted')
     deleteTarget.value = null
     await fetchHardware()
@@ -352,7 +352,7 @@ async function createUser() {
   if (!userForm.value.username || !userForm.value.password) return toast.error('Fill all fields')
   formLoading.value = true
   try {
-    await axios.post('/api/auth/register', { email: userForm.value.username, password: userForm.value.password, role: userForm.value.role })
+    await api.post('/api/auth/register', { email: userForm.value.username, password: userForm.value.password, role: userForm.value.role })
     toast.success(`User ${userForm.value.username} created`)
     showAddUser.value = false
     userForm.value = { username:'', password:'', role:'user' }
@@ -366,7 +366,7 @@ async function createUser() {
 
 async function deleteUser(u) {
   try {
-    await axios.delete(`/api/users/${u.id}`)
+    await api.delete(`/api/users/${u.id}`)
     toast.success(`User ${u.username} deleted`)
     await fetchUsers()
   } catch {
@@ -380,7 +380,7 @@ async function runAudit() {
   auditLoading.value = true
   auditRun.value = false
   try {
-    const { data } = await axios.get('/api/ai/audit')
+    const { data } = await api.get('/api/ai/audit')
     auditIssues.value = data.issues
     auditRun.value = true
     if (data.issues.length) toast.info(`Audit found ${data.issues.length} issue(s)`)
