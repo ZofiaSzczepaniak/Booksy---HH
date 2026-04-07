@@ -7,6 +7,7 @@ The app for manage, rent and maintain equipment.
 ## How to start
 
 ### 1. Backend (virtual environment) and setting the GROQ API key:
+Developed on Python 3.12
 
 ```powershell
 cd backend
