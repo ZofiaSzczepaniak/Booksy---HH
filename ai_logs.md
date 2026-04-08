@@ -22,7 +22,7 @@ The following normalizing rules were implemented:
 3. **Status Field Validation**
    - Ensure status is one of the valid values: "Available", "In Use", "Repair"
    - Default to "Available" for new items
-   - "Unkown" assigned to invalid dates
+   - "Unkown" assigned to invalid states
 
 4. **ID Duplication Handling**
    - Detect and resolve duplicate IDs during import
